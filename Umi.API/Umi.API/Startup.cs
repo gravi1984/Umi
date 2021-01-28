@@ -47,7 +47,8 @@ namespace Umi.API
             {
                 // conn for docker
                 // option.UseSqlServer("server=localhost; Database=UmiDb; User Id=sa; Password=Gravi1984");
-                option.UseSqlServer(Configuration["DbContext:ConnectionString"]);
+                // option.UseSqlServer(Configuration["DbContext:ConnectionString"]);
+                option.UseMySql(Configuration["DbContext:MySQLConn"]);
             });
         }
 
