@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Umi.API.Database;
@@ -32,7 +34,16 @@ namespace Umi.API
         public void ConfigureServices(IServiceCollection services)
         {
             // inject managed services
-            services.AddControllers();
+            // return 406 when request with unsupported Accept header
+            services.AddControllers(setupAction =>
+            {
+                setupAction.ReturnHttpNotAcceptable = true;
+                // setupAction.OutputFormatters.Add(
+                //     new XmlDataContractSerializerOutputFormatter()
+                //     );
+            }).AddXmlDataContractSerializerFormatters();
+            
+            
             // add service dependence: <interface, implementation>
             // 1. every request init independent data repo 
             // services.AddTransient<ITouristRouteRepository, MockTouristRouteRepository>();
@@ -50,6 +61,10 @@ namespace Umi.API
                 // option.UseSqlServer(Configuration["DbContext:ConnectionString"]);
                 option.UseMySql(Configuration["DbContext:MySQLConn"]);
             });
+
+            // register AutoMapper services
+            // scan profile file, to do auto mapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
