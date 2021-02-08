@@ -11,7 +11,7 @@ namespace Umi.API.Models
         public Guid Id { get; set; }
         [Required]
         [MaxLength(100)]
-        public string Title { get; set; }
+        public string Title { get; set;}
         
         [Required]
         [MaxLength(1500)]

@@ -25,4 +25,14 @@
       dotnet ef database update -p Umi.API
       ```
 
-#### 
+#### use AutoMapper to do Model -> Dto
+1. Scan Profile to do Auto Map
+
+
+#### api param, keyword, data filter
+1. From Query/Body/Form/Route/Service
+2. usr FromQuery to do keyword search
+3. LINQ(SQL statement)-> IQueryable(defer execution)-> Aggregate(ToList(), Count(), SingleOrDefault())
+4. use parameter to group manage/make optional url params, 
+
+

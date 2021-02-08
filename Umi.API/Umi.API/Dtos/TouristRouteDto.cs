@@ -31,6 +31,7 @@ namespace Umi.API.Dtos
         public string DepartureCity { get; set; }
 
         // 1-N: map list lectured in 5.1.0
-        // public ICollection<TouristRoutePicture> TouristRoutePictures { get; set; } = new List<TouristRoutePicture>();
+        // Auto map from linked table; return DTO object!!
+        public ICollection<TouristRoutePictureDto> TouristRoutePictures { get; set; }
     }
 }
