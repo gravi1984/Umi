@@ -8,10 +8,9 @@ namespace Umi.API.ResourceParameters
         public string Keyword { get; set; }
 
         public string RatingOpt { get; set; }
-
         // nullable
         public int? RatingValue { get; set; }
-
+        // private rating, not returnable do opt on it
         private string _rating { get; set; }
 
         public string Rating
