@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Umi.API.Dtos;
 using Umi.API.Services;
 using AutoMapper;
+using Umi.API.Models;
 using Umi.API.ResourceParameters;
 
 namespace Umi.API.Controllers
@@ -60,7 +61,7 @@ namespace Umi.API.Controllers
      
         // api/touristRoute/{touristRouteId}
 
-        [HttpGet("{touristRouteId}")]
+        [HttpGet("{touristRouteId}", Name = "GetTouristRouteById")]
         [HttpHead("{touristRouteId}")]
         public IActionResult GetTouristRouteById(Guid touristRouteId) // this is FromRoute
         {
@@ -86,5 +87,29 @@ namespace Umi.API.Controllers
             
             return Ok(touristRouteDto);
         }
+
+        [HttpPost]
+        public IActionResult CreateTouristRoute(
+            [FromBody] TouristRouteForCreationDto touristRouteForCreationDto
+            )
+        {
+
+            // Map creationDto to Model
+            // _repo _context Add Model
+            // _repo _context Save Model
+            var touristRouteModel = _mapper.Map<TouristRoute>(touristRouteForCreationDto);
+            _touristRouteRepository.AddTouristRoute(touristRouteModel);
+            _touristRouteRepository.Save();
+
+            // Map model to readDto
+            // return CreatedAtRoute([httpget] name, getby{id}, readDto)
+            var touristRouteToReturn = _mapper.Map<TouristRouteDto>(touristRouteModel);
+
+            return CreatedAtRoute(
+                "GetTouristRouteById", 
+                new {touristRouteId = touristRouteToReturn.Id},
+                touristRouteToReturn);
+        }
+        
     }
 }

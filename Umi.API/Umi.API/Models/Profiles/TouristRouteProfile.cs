@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Specialized;
 using AutoMapper;
 using Umi.API.Dtos;
@@ -26,6 +27,14 @@ namespace Umi.API.Models.Profiles
                     dest => dest.DepartureCity,
                     opt => opt.MapFrom(src => src.DepartureCity.ToString())
                 );
+
+            CreateMap<TouristRouteForCreationDto, TouristRoute>()
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => Guid.NewGuid())
+                    
+                    
+                    );
 
         }
         }

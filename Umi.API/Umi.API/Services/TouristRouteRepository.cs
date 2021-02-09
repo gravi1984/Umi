@@ -76,7 +76,22 @@ namespace Umi.API.Services
         {
             return _context.TouristRoutePictures.FirstOrDefault(p => p.Id == id);
         }
-        
-        
+
+        public void AddTouristRoute(TouristRoute touristRoute)
+        {
+            if (touristRoute == null)
+            {
+                throw new ArgumentNullException(nameof(touristRoute));
+            }
+
+            _context.TouristRoutes.Add(touristRoute);
+            
+            // _context.SaveChanges();
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
     }
 }

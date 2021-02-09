@@ -16,5 +16,9 @@ namespace Umi.API.Services
         IEnumerable<TouristRoutePicture> GetPicturesByTouristRouteId(Guid id);
         
         TouristRoutePicture GetPicture(int id);
+
+        void AddTouristRoute(TouristRoute touristRoute);
+
+        bool Save();
     }
 }
