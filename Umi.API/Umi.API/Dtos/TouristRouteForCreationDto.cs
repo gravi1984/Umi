@@ -32,6 +32,8 @@ namespace Umi.API.Dtos
 
         // 1-N: map list lectured in 5.1.0
         // Auto map from linked table; return DTO object!!
-        // public ICollection<TouristRoutePictureDto> TouristRoutePictures { get; set; }
+        // most be copied name from touristRouteModel!!
+        public ICollection<TouristRoutePictureForCreationDto> TouristRoutePictures { get; set; } =
+            new List<TouristRoutePictureForCreationDto>();
     }
 }
