@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,7 +42,26 @@ namespace Umi.API
                 // setupAction.OutputFormatters.Add(
                 //     new XmlDataContractSerializerOutputFormatter()
                 //     );
-            }).AddXmlDataContractSerializerFormatters();
+            }).AddXmlDataContractSerializerFormatters()
+                .ConfigureApiBehaviorOptions(
+                    setupAction => setupAction.InvalidModelStateResponseFactory = context =>
+                    {
+                        var problemDetail = new ValidationProblemDetails(context.ModelState)
+                        {
+                            Type =  "no matter",
+                            Title = "data validation fail",
+                            Status = StatusCodes.Status422UnprocessableEntity,
+                            Detail = "please look clarification",
+                            Instance =  context.HttpContext.Request.Path
+                            
+                        };
+                        problemDetail.Extensions.Add("traceId", context.HttpContext.TraceIdentifier);
+                        return new UnprocessableEntityObjectResult(problemDetail)
+                        {
+                            ContentTypes = { "application/problem+json"}
+                            
+                        };
+                    });
             
             
             // add service dependence: <interface, implementation>
