@@ -33,6 +33,10 @@
 1. From Query/Body/Form/Route/Service
 2. usr FromQuery to do keyword search
 3. LINQ(SQL statement)-> IQueryable(defer execution)-> Aggregate(ToList(), Count(), SingleOrDefault())
-4. use parameter to group manage/make optional url params, 
+4. use parameter to group manage/make optional url params
+
+#### data input verification
+1. rule: DTO vs Model
+2. ASP.NET Core: Data Annotation(rule), ModelState.IsValid(check), Error response(return)
 
 
