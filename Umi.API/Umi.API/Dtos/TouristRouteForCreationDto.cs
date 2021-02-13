@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Umi.API.ValidationAttributes;
 
 namespace Umi.API.Dtos
 {
     // Dto: per FE page/requirement, granular
-    public class TouristRouteForCreationDto : IValidatableObject
+    [TouristRouteTitleMustBeDifferentFromDescription]
+    public class TouristRouteForCreationDto 
     {
         // auto created, not need for creation: public Guid Id { get; set; }
         
@@ -42,19 +44,14 @@ namespace Umi.API.Dtos
         // 1-N: map list lectured in 5.1.0
         // Auto map from linked table; return DTO object!!
         // most be copied name from touristRouteModel!!
-        public ICollection<TouristRoutePictureForCreationDto> TouristRoutePictures { get; set; } =
-            new List<TouristRoutePictureForCreationDto>();
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (Title == Description)
-            {
-                yield return  new ValidationResult(
-                    "description cannot be same with title",
-                    new[] { "TouristRouteForCreationDto"}
-                );
-            }
-            
-        }
+        // public ICollection<TouristRoutePictureForCreationDto> TouristRoutePictures { get; set; } =
+        //     new List<TouristRoutePictureForCreationDto>();
+        //
+        
+        // public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        // {
+        //    
+        //     
+        // }
     }
 }
