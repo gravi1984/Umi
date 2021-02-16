@@ -89,6 +89,11 @@ namespace Umi.API.Services
             // _context.SaveChanges();
         }
 
+        public void DeleteTouristRoute(TouristRoute touristRoute)
+        {
+            _context.TouristRoutes.Remove(touristRoute);
+        }
+
         public bool Save()
         {
             return (_context.SaveChanges() >= 0);
@@ -109,5 +114,8 @@ namespace Umi.API.Services
             touristRoutePicture.TouristRouteId = touristRouteId;
             _context.TouristRoutePictures.Add(touristRoutePicture);
         }
+        
+        
+        
     }
 }

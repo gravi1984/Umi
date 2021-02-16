@@ -176,6 +176,29 @@ namespace Umi.API.Controllers
             return NoContent();
 
         }
+
+        [HttpDelete("{touristRouteId}")]
+
+        public IActionResult DeleteTouristRoute(
+            [FromRoute] Guid touristRouteId)
+        {
+            
+            if (!_touristRouteRepository.TouristRouteExists(touristRouteId))
+            {
+                return NotFound("not found");
+            }
+
+            var touristFromRepo = _touristRouteRepository.GetTouristRoute(touristRouteId);
+
+            _touristRouteRepository.DeleteTouristRoute(touristFromRepo);
+
+            _touristRouteRepository.Save();
+
+            return NoContent();
+
+
+
+        }
         
         
         
