@@ -59,3 +59,26 @@ Componet:
 
 5. step: repo -> controller to async
 
+
+#### deployment with Docker
+1. Registry
+public Image, docker hub
+2. Image
+docker pull {image}
+3. Container
+run image:
+
+image -> docker run -> container (local)
+      -> docker pull -> docker run (remote) -> container
+      
+commit container:
+container -> docker commit -> image -> docker push
+docker login
+ 
+```
+docker run -e '{env}' -p '{port}' -d '{image}'
+```
+build docker image
+docker run -d -p 127.0.0.1:3000:80 44cb4ace5601
+^^
+
