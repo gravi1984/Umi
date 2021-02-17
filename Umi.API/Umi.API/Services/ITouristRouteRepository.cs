@@ -23,5 +23,6 @@ namespace Umi.API.Services
         bool Save();
 
         void AddTouristRoutePicture(Guid touristRouteId, TouristRoutePicture touristRoutePicture);
+        void DeleteTouristRoutePicture(TouristRoutePicture touristRoutePicture);
     }
 }

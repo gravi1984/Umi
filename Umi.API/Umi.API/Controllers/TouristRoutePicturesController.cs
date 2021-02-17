@@ -89,6 +89,25 @@ namespace Umi.API.Controllers
                 pictureToReturn);
 
         }
+
+        [HttpDelete("{pictureId}")]
+        public IActionResult DeletePicture(
+            [FromRoute] Guid touristRouteId, // father route
+            [FromRoute] int pictureId )
+        {
+            
+            if (!_touristRouteRepository.TouristRouteExists(touristRouteId))
+            {
+                return NotFound("tourist route not exist");
+            }
+
+            var pictureFromRepo = _touristRouteRepository.GetPicture(pictureId);
+            
+            _touristRouteRepository.DeleteTouristRoutePicture(pictureFromRepo);
+            _touristRouteRepository.Save();
+            return NoContent();
+
+        }
         
     }
 }
