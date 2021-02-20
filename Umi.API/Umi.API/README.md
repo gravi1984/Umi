@@ -77,6 +77,7 @@ docker login
  
 ```
 docker run -e '{env}' -p '{port}' -d '{image}'
+docker inspect bridge
 ```
 build docker image
 docker run -d -p 127.0.0.1:3000:80 44cb4ace5601
