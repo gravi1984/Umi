@@ -20,8 +20,7 @@ namespace Umi.API.Controllers
         {
             _configuration = configuration;
         }
-        
-        
+
         [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult login([FromBody] LoginDto loginDto)
@@ -34,10 +33,12 @@ namespace Umi.API.Controllers
             
 
             // PAYLOAD 
+            // claim: permission item of user, atomic, claims -> authorisation -> identity
             var claims = new[]
             {
                 // sub
-                new Claim(JwtRegisteredClaimNames.Sub, "fake_user_id")
+                new Claim(JwtRegisteredClaimNames.Sub, "fake_user_id"),
+                new Claim(ClaimTypes.Role, "Admin"), 
             };
 
             // SIG

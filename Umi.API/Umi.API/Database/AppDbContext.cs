@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Umi.API.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Umi.API.Database
 {
 
-    public class AppDbContext : DbContext
+    // overwrite identityUser to customize user
+    public class AppDbContext : IdentityDbContext<IdentityUser> // DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

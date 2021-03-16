@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
@@ -111,6 +112,10 @@ namespace Umi.API
 
                     };
                 });
+
+            // inject Identity services
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -141,8 +146,7 @@ namespace Umi.API
                 //     throw new Exception("test");
                 //         await context.Response.WriteAsync("Hello test!");
                 // });
-
-
+                
                 endpoints.MapControllers();
             });
             
