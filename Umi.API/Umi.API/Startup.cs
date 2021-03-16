@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +16,7 @@ using Umi.API.Database;
 using Umi.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 
 namespace Umi.API
@@ -89,6 +92,25 @@ namespace Umi.API
             // register AutoMapper services
             // scan profile file, to do auto mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // inject authenticate service and read configuration parameters
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+
+                    var secretByte = Encoding.UTF8.GetBytes(Configuration["Authenticate:SecretKey"]);
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer =  Configuration["Authenticate:Issuer"],
+                        
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["Authenticate:Audience"],
+                        ValidateLifetime = true,
+                        IssuerSigningKey =  new SymmetricSecurityKey(secretByte)
+
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,7 +123,15 @@ namespace Umi.API
                 app.UseDeveloperExceptionPage();
             }
 
+            // where are u?
             app.UseRouting();
+
+            // apply AUTH framework
+            // who u are?
+            app.UseAuthentication();
+            
+            // what u can do?
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -115,6 +145,7 @@ namespace Umi.API
 
                 endpoints.MapControllers();
             });
+            
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Umi.API.Dtos;
 using Umi.API.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Umi.API.Models;
 using Umi.API.ResourceParameters;
@@ -91,6 +92,7 @@ namespace Umi.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateTouristRoute(
             [FromBody] TouristRouteForCreationDto touristRouteForCreationDto
             )
