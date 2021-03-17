@@ -2,7 +2,9 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,15 +17,19 @@ namespace Umi.API.Controllers
     public class AuthenticateController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AuthenticateController(IConfiguration configuration)
+        public AuthenticateController(
+            IConfiguration configuration, 
+            UserManager<IdentityUser> userManager)
         {
             _configuration = configuration;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult login([FromBody] LoginDto loginDto)
+        public IActionResult Login([FromBody] LoginDto loginDto)
         {
             // 1. verify user/pwd
 
@@ -61,6 +67,31 @@ namespace Umi.API.Controllers
 
             // 3. return 200 ok + JWT
             return Ok(tokenStr);
+
+        }
+
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) // DB, async
+        {
+            // 1. create User
+            var user = new IdentityUser()
+            {
+                UserName =  registerDto.Email,
+                Email = registerDto.Email
+            };
+            
+            // 2. hash pwd, save User
+            // hash pwd + save user to db
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest();
+            }
+
+            // 3. return 200
+            return Ok();
 
         }
         
