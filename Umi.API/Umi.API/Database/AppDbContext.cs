@@ -13,7 +13,7 @@ namespace Umi.API.Database
 {
 
     // overwrite identityUser to customize user
-    public class AppDbContext : IdentityDbContext<IdentityUser> // DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser> // DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -51,10 +51,52 @@ namespace Umi.API.Database
                 JsonConvert.DeserializeObject<IList<TouristRoutePicture>>(touristRoutePictureJsonData);
             modelBuilder.Entity<TouristRoutePicture>().HasData(touristRoutePictures);
             
+            // init User - Role seed
             
-                
-                
-                
+            // 1. User - Role FK
+            modelBuilder.Entity<ApplicationUser>(u =>
+            {
+                u.HasMany(x => x.UserRoles)
+                    .WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+            });
+            
+            // 2. add Admin role
+            var adminRoleId = "R-000";
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole()
+                {
+                    Id = adminRoleId,
+                    Name = "Admin",
+                    NormalizedName = "Admin".ToUpper(),
+                });
+            
+            // 3. add User 
+            var adminUserId = "U-OOO";
+            ApplicationUser adminUser = new ApplicationUser
+            {
+                Id = adminUserId,
+                UserName = "admin@umi.com",
+                NormalizedUserName = "admin@umi.com".ToUpper(),
+                Email = "admin@umi.com",
+                NormalizedEmail = "admin@umi.com".ToUpper(),
+                TwoFactorEnabled = false,
+                EmailConfirmed = true,
+                PhoneNumber = "123456",
+                PhoneNumberConfirmed = false
+            };
+            var ph = new PasswordHasher<ApplicationUser>();
+            adminUser.PasswordHash = ph.HashPassword(adminUser, "fake123$");
+            modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
+            
+            
+            // 4. add Admin to User
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>()
+                {
+                    RoleId = adminRoleId,
+                    UserId = adminUserId
+                });
+
             base.OnModelCreating(modelBuilder);
         }
     }

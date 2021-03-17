@@ -33,6 +33,7 @@ namespace Umi.API.Controllers
         // api/touristRoute?keyword={keyword}
         [HttpGet]
         [HttpHead]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         // check if resource exist; cache
         public async Task<IActionResult> GetTouristRoutes(
             [FromQuery] TouristRouteResourceParameters parameters  // FromQuery vs FromBody
@@ -66,6 +67,7 @@ namespace Umi.API.Controllers
 
         [HttpGet("{touristRouteId}", Name = "GetTouristRouteById")]
         [HttpHead("{touristRouteId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetTouristRouteById(Guid touristRouteId) // this is FromRoute
         {
             var touristRoutesFromRepo = await _touristRouteRepository.GetTouristRouteAsync(touristRouteId);
@@ -92,7 +94,8 @@ namespace Umi.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateTouristRoute(
             [FromBody] TouristRouteForCreationDto touristRouteForCreationDto
             )
@@ -116,6 +119,7 @@ namespace Umi.API.Controllers
         }
 
         [HttpPut("{touristRouteId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateTouristRoute(
             [FromRoute] Guid touristRouteId,
         [FromBody] TouristRouteForUpdateDto touristRouteForUpdateDto
@@ -145,6 +149,7 @@ namespace Umi.API.Controllers
         }
 
         [HttpPatch("{touristRouteId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> PatchUpdateTouristRoute(
             [FromRoute] Guid touristRouteId,
             [FromBody] JsonPatchDocument<TouristRouteForUpdateDto> patchDocument)
@@ -181,7 +186,7 @@ namespace Umi.API.Controllers
         }
 
         [HttpDelete("{touristRouteId}")]
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteTouristRoute(
             [FromRoute] Guid touristRouteId)
         {
