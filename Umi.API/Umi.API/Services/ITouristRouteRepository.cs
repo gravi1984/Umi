@@ -18,14 +18,18 @@ namespace Umi.API.Services
         
         Task<TouristRoutePicture> GetPictureAsync(int id);
         
-        Task<bool> SaveAsync();
+
 
         void AddTouristRoute(TouristRoute touristRoute);
         void DeleteTouristRoute(TouristRoute touristRoute);
-
-      
+        
 
         void AddTouristRoutePicture(Guid touristRouteId, TouristRoutePicture touristRoutePicture);
         void DeleteTouristRoutePicture(TouristRoutePicture touristRoutePicture);
+
+        Task<ShoppingCart> GetShoppingCartByUserId(string userId);
+        Task CreateShoppingCart(ShoppingCart shoppingCart);
+        
+        Task<bool> SaveAsync();
     }
 }

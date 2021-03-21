@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Umi.API.Dtos;
 using Umi.API.Models;
+using Umi.API.Services;
 
 namespace Umi.API.Controllers
 {
@@ -21,15 +22,19 @@ namespace Umi.API.Controllers
         private readonly IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ITouristRouteRepository _touristRouteRepository;
 
         public AuthenticateController(
             IConfiguration configuration, 
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ITouristRouteRepository touristRouteRepository
+            )
         {
             _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
+            _touristRouteRepository = touristRouteRepository;
         }
 
         [AllowAnonymous]
@@ -113,8 +118,18 @@ namespace Umi.API.Controllers
             {
                 return BadRequest();
             }
+            
+            // 3. init shoppingCart
+            var shoppingCart = new ShoppingCart()
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id
+            };
 
-            // 3. return 200
+            await _touristRouteRepository.CreateShoppingCart(shoppingCart);
+            await _touristRouteRepository.SaveAsync();
+
+            // 4. return 200
             return Ok();
 
         }
