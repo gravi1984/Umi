@@ -9,8 +9,8 @@ using Umi.API.Database;
 namespace Umi.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210319111154_ShoppingCartMigration")]
-    partial class ShoppingCartMigration
+    [Migration("20210322112232_fk")]
+    partial class fk
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,7 @@ namespace Umi.API.Migrations
                         new
                         {
                             Id = "R-000",
-                            ConcurrencyStamp = "5baa5188-45b6-480b-8b52-066277d5b82e",
+                            ConcurrencyStamp = "403e9c22-eda3-487b-af33-a56c2328e91e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -254,16 +254,16 @@ namespace Umi.API.Migrations
                         {
                             Id = "U-OOO",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4becd141-08bd-4cf8-b71d-a3a428728afc",
+                            ConcurrencyStamp = "5e8afe38-53d5-4e3d-8538-2d2adfbf0be5",
                             Email = "admin@umi.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@UMI.COM",
                             NormalizedUserName = "ADMIN@UMI.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELuVggX8LKKC63SQWmKs2fFl5htkbwxcR0Avt6h36mnRLONJf3refhW3tDaKfiyNbA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDv1mvShzg9pD7uVDpF5P669+Ip4RC+RTx7q7ym+/Qpc15RF4NMc1lnfxe/QRTS9hw==",
                             PhoneNumber = "123456",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "46be8c81-7645-43f7-a9db-04694d223f3b",
+                            SecurityStamp = "38b6e0a4-f06f-49c2-a186-ffe7d1e2c1ba",
                             TwoFactorEnabled = false,
                             UserName = "admin@umi.com"
                         });
@@ -282,9 +282,7 @@ namespace Umi.API.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("ShoppingCardId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("ShoppingCartId")
+                        .IsRequired()
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("TouristRouteId")
@@ -292,7 +290,7 @@ namespace Umi.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("ShoppingCardId");
 
                     b.HasIndex("TouristRouteId");
 
@@ -1118,7 +1116,9 @@ namespace Umi.API.Migrations
                 {
                     b.HasOne("Umi.API.Models.ShoppingCart", null)
                         .WithMany("ShoppingCartItems")
-                        .HasForeignKey("ShoppingCartId");
+                        .HasForeignKey("ShoppingCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Umi.API.Models.TouristRoute", "TouristRoute")
                         .WithMany()

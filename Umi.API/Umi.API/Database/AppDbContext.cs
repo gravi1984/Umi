@@ -100,7 +100,14 @@ namespace Umi.API.Database
                     RoleId = adminRoleId,
                     UserId = adminUserId
                 });
+            
+            modelBuilder.Entity<ShoppingCart>(s =>
+            {
+                s.HasMany(s => s.ShoppingCartItems)
+                    .WithOne().HasForeignKey(li => li.ShoppingCardId).IsRequired();
+            });
 
+            
             base.OnModelCreating(modelBuilder);
         }
     }

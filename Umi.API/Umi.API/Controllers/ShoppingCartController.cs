@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Umi.API.Dtos;
+using Umi.API.Models;
 using Umi.API.Services;
 
 namespace Umi.API.Controllers
@@ -48,6 +49,40 @@ namespace Umi.API.Controllers
             return Ok(_mapper.Map<ShoppingCartDto>(shoppingCart));
 
         }
+
+        [HttpPost("items")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> AddShoppingCartItems([FromBody] AddShoppingCartItemDto addShoppingCartItemDto)
+        {
+            // 1. get Cart
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var shoppingCart = await _touristRouteRepository.GetShoppingCartByUserId(userId);
+            
+            // 2. add Item to Cart
+            var touristRoute =
+                await _touristRouteRepository.GetTouristRouteAsync(addShoppingCartItemDto.TouristRouteId);
+
+            if (touristRoute == null)
+            {
+                return NotFound("Tourist route not exist. ");
+            }
+
+            var lineItem = new LineItem()
+            {
+                TouristRouteId = addShoppingCartItemDto.TouristRouteId,
+                ShoppingCardId = shoppingCart.Id,
+                OriginalPrice = touristRoute.OriginalPrice,
+                DiscountPresent = touristRoute.DiscountPresent
+            };
+
+            await _touristRouteRepository.AddShoppingCartItem(lineItem);
+            await _touristRouteRepository.SaveAsync();
+
+            // 3. return 201
+
+            return Ok(_mapper.Map<ShoppingCartDto>(shoppingCart));
+        }
+        
         
     }
 }

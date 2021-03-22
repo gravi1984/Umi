@@ -14,7 +14,9 @@ namespace Umi.API.Models
         public Guid TouristRouteId { get; set; } // FK to Product
         public TouristRoute TouristRoute { get; set; } 
         
+        [ForeignKey("ShoppingCardId")]
         public Guid? ShoppingCardId { get; set; } 
+        
         // public Guid? OrderId { get; set; }
         
         [Column(TypeName = "decimal(18,2)")]
@@ -22,6 +24,9 @@ namespace Umi.API.Models
         // declare Nullable field type? 
         [Range(0.0,1.0)]
         public double? DiscountPresent { get; set; }
+        
+        
+        
         
     }
 }

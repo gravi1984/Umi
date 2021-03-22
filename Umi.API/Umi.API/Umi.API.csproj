@@ -11,8 +11,10 @@
       <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.0-preview.1.21103.6" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" />
+<!--      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.0.0-preview3-final" />-->
       <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
     </ItemGroup>
@@ -28,10 +30,6 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Migrations" />
     </ItemGroup>
 
 </Project>

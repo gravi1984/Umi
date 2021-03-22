@@ -9,8 +9,8 @@ using Umi.API.Database;
 namespace Umi.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210128060456_MysqlInit")]
-    partial class MysqlInit
+    [Migration("20210322104935_shoppingcart")]
+    partial class shoppingcart
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,6 +18,303 @@ namespace Umi.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "R-000",
+                            ConcurrencyStamp = "864ca886-e874-48fb-8b42-f6c089685f68",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "U-OOO",
+                            RoleId = "R-000"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Umi.API.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "U-OOO",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "07ad4296-c388-4755-848d-82ab64015f8a",
+                            Email = "admin@umi.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@UMI.COM",
+                            NormalizedUserName = "ADMIN@UMI.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHnp2cLB3WxwpkdPL1/TMrb2JKvSY6uq/PtdEtInug8FkXoP7OucVc8J/oUpqrREYg==",
+                            PhoneNumber = "123456",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "3329ee83-a91d-4d35-818f-d6fd2d0835e7",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@umi.com"
+                        });
+                });
+
+            modelBuilder.Entity("Umi.API.Models.LineItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double?>("DiscountPresent")
+                        .HasColumnType("double");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("ShoppingCardId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("ShoppingCartId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("TouristRouteId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.HasIndex("TouristRouteId");
+
+                    b.ToTable("LineItems");
+                });
+
+            modelBuilder.Entity("Umi.API.Models.ShoppingCart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ShoppingCarts");
+                });
 
             modelBuilder.Entity("Umi.API.Models.TouristRoute", b =>
                 {
@@ -748,6 +1045,93 @@ namespace Umi.API.Migrations
                             TouristRouteId = new Guid("39996f34-013c-4fc6-b1b3-0c1036c47119"),
                             Url = "../../assets/images/louvre-102840_640.jpg"
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany("Claims")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany("Logins")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany("Tokens")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Umi.API.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Umi.API.Models.LineItem", b =>
+                {
+                    b.HasOne("Umi.API.Models.ShoppingCart", null)
+                        .WithMany("ShoppingCartItems")
+                        .HasForeignKey("ShoppingCartId");
+
+                    b.HasOne("Umi.API.Models.TouristRoute", "TouristRoute")
+                        .WithMany()
+                        .HasForeignKey("TouristRouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Umi.API.Models.ShoppingCart", b =>
+                {
+                    b.HasOne("Umi.API.Models.ApplicationUser", "User")
+                        .WithOne("ShoppingCart")
+                        .HasForeignKey("Umi.API.Models.ShoppingCart", "UserId");
                 });
 
             modelBuilder.Entity("Umi.API.Models.TouristRoutePicture", b =>

@@ -29,7 +29,9 @@ namespace Umi.API.Services
 
         Task<ShoppingCart> GetShoppingCartByUserId(string userId);
         Task CreateShoppingCart(ShoppingCart shoppingCart);
-        
+
+        Task AddShoppingCartItem(LineItem lineItem);
+
         Task<bool> SaveAsync();
     }
 }
