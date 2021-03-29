@@ -32,6 +32,12 @@ namespace Umi.API.Services
 
         Task AddShoppingCartItem(LineItem lineItem);
 
+        Task<LineItem> GetShoppingCartItemById(int lineItemId);
+        void DeleteShoppingCartItem(LineItem lineItem);
+
+        Task<IEnumerable<LineItem>> GetShoppingCartItemsByIds(IEnumerable<int> lineItemIds);
+        void DeleteShoppingCartItems(IEnumerable<LineItem> lineItems);
+
         Task<bool> SaveAsync();
     }
 }

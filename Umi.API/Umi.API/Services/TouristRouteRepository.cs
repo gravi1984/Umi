@@ -135,5 +135,28 @@ namespace Umi.API.Services
         {
             await _context.LineItems.AddAsync(lineItem);
         }
+        
+
+        public async Task<LineItem> GetShoppingCartItemById(int lineItemId)
+        {
+            return await _context.LineItems.Where(li => li.Id == lineItemId).FirstOrDefaultAsync();
+        }
+
+        public async void DeleteShoppingCartItem (LineItem lineItem)
+        {
+            _context.LineItems.Remove(lineItem);
+        }
+
+        public async Task<IEnumerable<LineItem>> GetShoppingCartItemsByIds(IEnumerable<int> lineItemIds)
+        {
+            return await _context.LineItems
+                .Where(li => lineItemIds.Contains(li.Id))
+                .ToListAsync();
+        }
+
+        public void DeleteShoppingCartItems(IEnumerable<LineItem> lineItems)
+        {
+            _context.LineItems.RemoveRange(lineItems);
+        }
     }
 }

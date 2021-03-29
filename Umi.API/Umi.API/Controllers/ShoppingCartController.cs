@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -5,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Umi.API.Dtos;
+using Umi.API.Helper;
 using Umi.API.Models;
 using Umi.API.Services;
 
@@ -78,11 +81,46 @@ namespace Umi.API.Controllers
             await _touristRouteRepository.AddShoppingCartItem(lineItem);
             await _touristRouteRepository.SaveAsync();
 
-            // 3. return 201
+            // 3. return 200
 
             return Ok(_mapper.Map<ShoppingCartDto>(shoppingCart));
         }
+
+        [HttpDelete("items/{itemId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> DeleteShoppingCartItem([FromRoute] int itemId)
+        {
+            // 1. get lineItem
+            var lineItem = await _touristRouteRepository.GetShoppingCartItemById(itemId);
+            if (lineItem == null)
+            {
+                return NotFound("can't found the item in shopping cart");
+            }
+
+            // 2. delete lineItem
+            _touristRouteRepository.DeleteShoppingCartItem(lineItem);
+            await _touristRouteRepository.SaveAsync();
+
+            // 3. return 200
+            return NoContent();
+        }
         
-        
+
+        // [HttpDelete("items/({itemIds})")]
+        // [Authorize(AuthenticationSchemes = "Bearer")]
+        // public async Task<IActionResult> RemoveShoppingCartItems(
+        //     [ModelBinder(BinderType = typeof(ArrayModelBinder))] 
+        //     [FromRoute] IEnumerable<int> itemIds)
+        // {
+        //
+        //     var lineItems = await _touristRouteRepository.GetShoppingCartItemsByIds(itemIds);
+        //
+        //     _touristRouteRepository.DeleteShoppingCartItems(lineItems);
+        //     await _touristRouteRepository.SaveAsync();
+        //
+        //     return NoContent();
+        //
+        // }
+
     }
 }
