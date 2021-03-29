@@ -26,6 +26,8 @@ namespace Umi.API.Database
         // new DataModel
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<LineItem> LineItems { get; set; }
+        
+        public DbSet<Order> Orders { get; set; }
 
         // customize ORM mapping, e.g. change mapped table name, DataAnnotation
         protected override void OnModelCreating(ModelBuilder modelBuilder)

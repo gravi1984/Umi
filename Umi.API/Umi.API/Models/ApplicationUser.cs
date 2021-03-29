@@ -9,7 +9,8 @@ namespace Umi.API.Models
         
         public string Address { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
-        // public string Orders { get; set; }
+        // bind user - * orders
+        public ICollection<Order> Orders { get; set; }
         
         
         public virtual  ICollection<IdentityUserRole<string>> UserRoles { get; set; }
